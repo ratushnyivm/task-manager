@@ -1,0 +1,38 @@
+{% load i18n %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+
+    <a class="navbar-brand" href="{% url 'home' %}">{% translate 'Task manager' %}</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarToggleExternalContent">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">{% translate 'Users' %}</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'user_update' user.id %}">{{ user.username }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">{% translate 'Log Out' %}</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="#">{% translate 'Log In' %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">{% translate 'Sign Up' %}</a>
+            </li>
+        {% endif %}
+        </ul>
+
+    </div>
+
+</nav>

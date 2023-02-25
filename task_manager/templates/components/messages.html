@@ -1,0 +1,11 @@
+{% load bootstrap4 %}
+
+{% if messages %}
+  {% for message in messages %}
+    {% if message.tags == 'error' %}
+      {% bootstrap_alert message alert_type='danger' %}
+    {% else %}
+      {% bootstrap_alert message alert_type=message.tags %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
