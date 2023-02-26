@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
 
-    <a class="navbar-brand" href="{% url 'home' %}">{% translate 'Task manager' %}</a>
+    <a class="navbar-brand" href="{% url 'home' %}">{% trans 'Task manager' %}</a>
     <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarToggleExternalContent">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -11,7 +11,7 @@
 
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#">{% translate 'Users' %}</a>
+                <a class="nav-link" href="{% url 'users_index' %}">{% trans 'Users' %}</a>
             </li>
         </ul>
 
@@ -21,14 +21,14 @@
                 <a class="nav-link" href="{% url 'user_update' user.id %}">{{ user.username }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">{% translate 'Log Out' %}</a>
+                <a class="nav-link" href="{% url 'logout' %}">{% trans 'Log Out' %}</a>
             </li>
         {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="#">{% translate 'Log In' %}</a>
+              <a class="nav-link" href="{% url 'login' %}">{% trans 'Log In' %}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">{% translate 'Sign Up' %}</a>
+              <a class="nav-link" href="{% url 'user_create' %}">{% trans 'Sign Up' %}</a>
             </li>
         {% endif %}
         </ul>

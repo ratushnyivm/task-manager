@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block header %}{% endblock %}
+{% block content %}
+<h1 class="my-3 text-left">{% trans 'Delete user' %}</h1>
+<form class="text-left" method="post">
+    {% csrf_token %}
+    <p>{% trans 'Are you sure you want to delete'%}
+        {% if user.username %}
+            '{{ user.username }}'
+        {% else %}
+            {{ user.first_name }} {{ user.last_name }}
+        {% endif %}?
+    </p>
+    {{ form }}
+    <button type="submit" class="btn btn-danger" value="Confirm">{% trans 'Yes, delete' %}</button>
+</form>
+{% endblock content %}

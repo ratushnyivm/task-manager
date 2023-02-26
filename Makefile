@@ -13,3 +13,8 @@ makemessages:
 compilemessages:
 	poetry run django-admin compilemessages --ignore="static" --ignore=".venv"
 
+migrations:
+	poetry run python manage.py makemigrations
+
+migrate:
+	poetry run python manage.py migrate

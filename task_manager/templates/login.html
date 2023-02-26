@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n bootstrap4 %}
+
+
+{% block content %}
+    <h1 class="my-4">{% trans "Log In" %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button class="btn btn-primary">{% trans "Log In" %}</button>
+    </form>
+{% endblock %}

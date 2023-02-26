@@ -50,6 +50,9 @@ INSTALLED_APPS = [
 
     'bootstrap4',
     'task_manager',
+
+    # Local apps
+    'task_manager.users',
 ]
 
 MIDDLEWARE = [
@@ -112,6 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 
 # Internationalization
