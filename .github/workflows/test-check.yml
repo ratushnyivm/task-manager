@@ -1,6 +1,10 @@
-name: linter-check
+name: test-check
 
 on: push
+
+env:
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  CC_TEST_REPORTER_ID: ${{ secrets.TEST_REPORTER_ID }}
 
 jobs:
   build:
@@ -9,7 +13,7 @@ jobs:
     steps:
       - name: Git clone our repo
         uses: actions/checkout@v3
-      
+
       - name: Set up Python 3.11
         uses: actions/setup-python@v3
         with:
@@ -19,14 +23,12 @@ jobs:
         run: |
           pip install poetry
           poetry install
-      
+
       - name: Run test
         run: make test
-      
+
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v3.2.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.TEST_REPORTER_ID }}
         with:
           coverageCommand: make test-coverage
           debug: true
