@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [
     'localhost',
     'webserver',
     '.railway.app',
+    'testserver',
 ]
 
 CSRF_TRUSTED_ORIGINS = ['https://*.railway.app']
@@ -156,3 +157,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+FIXTURE_DIRS = (
+    os.path.join(BASE_DIR, 'task_manager', 'tests', 'fixtures'),
+)

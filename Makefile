@@ -1,8 +1,18 @@
+MANAGE := poetry run python3 manage.py
+
 start:
-	poetry run python manage.py runserver
+	${MANAGE} runserver
 
 lint:
 	poetry run flake8 task_manager
+
+test:
+	${MANAGE} test ./task_manager/tests
+
+test-coverage:
+	poetry run coverage run manage.py test ./task_manager/tests
+	poetry run coverage xml --omit=*/tests/*,*/migrations/*,*__init__.py
+	poetry run coverage report --omit=*/tests/*,*/migrations/*,*__init__.py
 
 requirements:
 	poetry export -f requirements.txt --without-hashes -o requirements.txt
@@ -14,7 +24,12 @@ compilemessages:
 	poetry run django-admin compilemessages --ignore="static" --ignore=".venv"
 
 migrations:
-	poetry run python manage.py makemigrations
+	${MANAGE} makemigrations
 
 migrate:
-	poetry run python manage.py migrate
+	${MANAGE} migrate
+
+shell:
+	${MANAGE} shell
+
+check: lint test requirements
