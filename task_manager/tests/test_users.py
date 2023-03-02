@@ -29,7 +29,7 @@ class CustomUserTestCase(TestCase):
         }
 
     def test_users_model(self) -> None:
-        response = self.client.get(reverse('users_index'))
+        response = self.client.get(reverse('users_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
         users_list = list(response.context['users'])
@@ -44,7 +44,7 @@ class CustomUserTestCase(TestCase):
     def test_users_create_view(self):
         get_response = self.client.get(reverse('user_create'))
         self.assertEqual(get_response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(get_response, 'users/form.html')
+        self.assertTemplateUsed(get_response, 'users/user_create.html')
 
         post_response = self.client.post(
             path=reverse('user_create'),
@@ -69,7 +69,7 @@ class CustomUserTestCase(TestCase):
             follow=True,
         )
         self.assertEqual(post_response.status_code, HTTPStatus.OK)
-        self.assertRedirects(post_response, reverse('users_index'))
+        self.assertRedirects(post_response, reverse('users_list'))
 
         user1_update = User.objects.get(pk=1)
         self.assertEqual(
@@ -95,7 +95,7 @@ class CustomUserTestCase(TestCase):
 
         post_response = self.client.post(delete_user_path)
         self.assertEqual(post_response.status_code, HTTPStatus.FOUND)
-        self.assertRedirects(post_response, reverse('users_index'))
+        self.assertRedirects(post_response, reverse('users_list'))
         users_count_after_delete = User.objects.count()
         self.assertTrue(
             users_count_after_delete == users_count_before_delete - 1

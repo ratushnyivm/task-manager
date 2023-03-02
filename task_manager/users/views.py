@@ -14,7 +14,7 @@ User = get_user_model()
 class UserListView(generic.ListView):
 
     model = User
-    template_name = 'users/index.html'
+    template_name = 'users/users_list.html'
     context_object_name = 'users'
 
 
@@ -22,7 +22,7 @@ class UserCreateView(SuccessMessageMixin, generic.CreateView):
 
     model = User
     form_class = UserCreationAndChangeForm
-    template_name = 'users/form.html'
+    template_name = 'users/user_create.html'
     success_url = reverse_lazy('login')
     success_message = _('User successfully registered')
 
@@ -36,8 +36,8 @@ class UserUpdateView(SuccessMessageMixin, generic.UpdateView):
 
     model = User
     form_class = UserCreationAndChangeForm
-    template_name = 'users/form.html'
-    success_url = reverse_lazy('users_index')
+    template_name = 'users/user_create.html'
+    success_url = reverse_lazy('users_list')
     success_message = _('User successfully changed')
 
     def get_context_data(self, **kwargs):
@@ -51,7 +51,7 @@ class UserUpdateView(SuccessMessageMixin, generic.UpdateView):
                 self.request,
                 _('You do not have permission to change another user')
             )
-            return redirect('users_index')
+            return redirect('users_list')
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -60,7 +60,7 @@ class UserDeleteView(generic.DeleteView):
     model = User
     template_name = 'users/user_delete.html'
     context_object_name = 'user'
-    success_url = reverse_lazy('users_index')
+    success_url = reverse_lazy('users_list')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.id != self.get_object().id:
@@ -68,5 +68,5 @@ class UserDeleteView(generic.DeleteView):
                 self.request,
                 _("Can't delete user because it's in use")
             )
-            return redirect('users_index')
+            return redirect('users_list')
         return super().dispatch(request, *args, **kwargs)
