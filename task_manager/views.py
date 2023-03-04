@@ -22,5 +22,5 @@ class UserLogoutView(SuccessMessageMixin, LogoutView):
     next_page = 'home'
 
     def dispatch(self, request, *args, **kwargs):
-        messages.add_message(self.request, messages.INFO, _('You are logged out'))
+        messages.info(self.request, _('You are logged out'))
         return super().dispatch(request, *args, **kwargs)

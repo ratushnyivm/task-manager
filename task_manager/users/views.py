@@ -11,7 +11,7 @@ from .forms import UserCreationAndChangeForm
 User = get_user_model()
 
 
-class UserListView(generic.ListView):
+class UsersListView(generic.ListView):
 
     model = User
     template_name = 'users/users_list.html'
