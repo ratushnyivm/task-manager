@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block header %}{% endblock %}
+{% block content %}
+<h1 class="my-3 text-left">{% trans 'Delete status' %}</h1>
+<form class="text-left" method="post">
+    {% csrf_token %}
+    <p>{% trans 'Are you sure you want to delete'%} {{ status.name }}</p>
+    <button type="submit" class="btn btn-danger" value="Confirm">{% trans 'Yes, delete' %}</button>
+</form>
+{% endblock content %}
