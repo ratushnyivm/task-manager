@@ -7,10 +7,10 @@ lint:
 	poetry run flake8 task_manager
 
 test:
-	${MANAGE} test ./task_manager/tests
+	${MANAGE} test
 
 test-coverage:
-	poetry run coverage run manage.py test ./task_manager/tests
+	poetry run coverage run manage.py test
 	poetry run coverage xml --omit=*/tests/*,*/migrations/*,*__init__.py
 	poetry run coverage report --omit=*/tests/*,*/migrations/*,*__init__.py
 
