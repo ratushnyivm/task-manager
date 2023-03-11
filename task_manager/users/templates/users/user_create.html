@@ -2,7 +2,7 @@
 {% load i18n bootstrap4 %}
 
 {% block content %}
-    <h1 class="my-5 text-left">{% trans 'Registration'%}</h1>
+    <h1 class="my-5 text-left">{{ header }}</h1>
 
     <form class="text-left" method="post">
         {% csrf_token %}

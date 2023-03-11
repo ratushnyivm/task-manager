@@ -12,6 +12,7 @@ MSG_NO_PERMISSION = _('You are not authorized! Please sign in.')
 
 
 class StatusesListView(LoginRequiredMixin, generic.ListView):
+    """Generic class-based view for a list of statuses."""
 
     model = Status
     template_name = 'statuses/statuses_list.html'
@@ -25,6 +26,7 @@ class StatusesListView(LoginRequiredMixin, generic.ListView):
 class StatusCreateView(LoginRequiredMixin,
                        SuccessMessageMixin,
                        generic.CreateView):
+    """Generic class-based view for creating statuses."""
 
     model = Status
     fields = ['name']
@@ -44,6 +46,7 @@ class StatusCreateView(LoginRequiredMixin,
 class StatusUpdateView(LoginRequiredMixin,
                        SuccessMessageMixin,
                        generic.UpdateView):
+    """Generic class-based view for updating statuses."""
 
     model = Status
     fields = ['name']
@@ -52,7 +55,7 @@ class StatusUpdateView(LoginRequiredMixin,
     success_message = _('The status successfully updated')
     extra_context = {
         'header': _('Update status'),
-        'button': _('Change')
+        'button': _('Update')
     }
 
     def handle_no_permission(self):
@@ -63,6 +66,7 @@ class StatusUpdateView(LoginRequiredMixin,
 class StatusDeleteView(LoginRequiredMixin,
                        SuccessMessageMixin,
                        generic.DeleteView):
+    """Generic class-based view for deleting statuses."""
 
     model = Status
     template_name = 'statuses/status_delete.html'

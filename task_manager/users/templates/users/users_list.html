@@ -5,7 +5,7 @@
     <h1 class="my-4">{% trans 'Users' %}</h1>
     
     <table class="table table-striped">
-        <thead>
+        <thead class="thead-dark">
             <tr>
               <th>{% trans 'ID' %}</th>
               <th>{% trans 'Username' %}</th>
@@ -23,7 +23,7 @@
                 <td>{{ user.first_name }} {{ user.last_name }}</td>
                 <td>{{ user.date_joined|date:"d.m.Y H:i" }}</td>
                 <td>
-                    <a class="btn btn-primary btn-sm mb-1" role="button" aria-pressed="true" href="{% url 'user_update' user.id %}">{% trans 'Change' %}</a>
+                    <a class="btn btn-primary btn-sm mb-1" role="button" aria-pressed="true" href="{% url 'user_update' user.id %}">{% trans 'Update' %}</a>
                     <br>
                     <a class="btn btn-secondary btn-sm" role="button" aria-pressed="true" href="{% url 'user_delete' user.id %}">{% trans 'Delete' %}</a>
                 </td>

@@ -11,7 +11,7 @@
     </div>
 
     <table class="table table-striped">
-        <thead>
+        <thead class="thead-dark">
             <tr>
               <th>{% trans 'ID' %}</th>
               <th>{% trans 'Name' %}</th>
@@ -27,7 +27,7 @@
                 <td>{{ status.name }}</td>
                 <td>{{ status.created_at|date:"d.m.Y H:i" }}</td>
                 <td>
-                    <a class="btn btn-primary btn-sm mb-1" role="button" aria-pressed="true" href="{% url 'status_update' status.id %}">{% trans 'Change' %}</a>
+                    <a class="btn btn-primary btn-sm mb-1" role="button" aria-pressed="true" href="{% url 'status_update' status.id %}">{% trans 'Update' %}</a>
                     <br>
                     <a class="btn btn-secondary btn-sm" role="button" aria-pressed="true" href="{% url 'status_delete' status.id %}">{% trans 'Delete' %}</a>
                 </td>
