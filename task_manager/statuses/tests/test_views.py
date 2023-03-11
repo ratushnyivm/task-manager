@@ -20,10 +20,6 @@ class StatusesListViewTest(TestCase):
         self.client = Client()
         self.client.force_login(User.objects.get(pk=1))
 
-        self.status1 = Status.objects.get(pk=1)
-        self.status2 = Status.objects.get(pk=2)
-        self.status3 = Status.objects.get(pk=3)
-
     def test_view_url_exists_at_desired_location(self) -> None:
         response = self.client.get('/statuses/')
         self.assertEqual(response.status_code, HTTPStatus.OK)
@@ -37,7 +33,7 @@ class StatusesListViewTest(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, 'statuses/statuses_list.html')
 
-    def test_lists_all_statuses(self) -> None:
+    def test_list_all_statuses(self) -> None:
         response = self.client.get(reverse('statuses_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(len(response.context['statuses']), 3)

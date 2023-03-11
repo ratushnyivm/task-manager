@@ -3,7 +3,8 @@ from django.utils.translation import gettext as _
 from task_manager.statuses.models import Status
 
 
-class StatusesModelTest(TestCase):
+class StatusModelTest(TestCase):
+    """Test case for the Status model."""
 
     def setUp(self) -> None:
         Status.objects.create(name='status')
