@@ -6,11 +6,13 @@ from django.views.generic.base import TemplateView
 
 
 class HomePageView(TemplateView):
+    """Generic class-based view for a home page."""
 
     template_name = "index.html"
 
 
 class UserLoginView(SuccessMessageMixin, LoginView):
+    """Generic class-based view for user login."""
 
     template_name = 'login.html'
     next_page = 'home'
@@ -18,6 +20,7 @@ class UserLoginView(SuccessMessageMixin, LoginView):
 
 
 class UserLogoutView(SuccessMessageMixin, LogoutView):
+    """Generic class-based view for user logout."""
 
     next_page = 'home'
 

@@ -29,7 +29,7 @@ class StatusCreateView(LoginRequiredMixin,
     """Generic class-based view for creating statuses."""
 
     model = Status
-    fields = ['name']
+    fields = ('name',)
     template_name = 'statuses/status_create.html'
     success_url = reverse_lazy('statuses_list')
     success_message = _('The status successfully created')
@@ -49,7 +49,7 @@ class StatusUpdateView(LoginRequiredMixin,
     """Generic class-based view for updating statuses."""
 
     model = Status
-    fields = ['name']
+    fields = ('name',)
     template_name = 'statuses/status_create.html'
     success_url = reverse_lazy('statuses_list')
     success_message = _('The status successfully updated')
