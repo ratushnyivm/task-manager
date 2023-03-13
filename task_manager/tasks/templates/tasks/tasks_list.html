@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <h1 class="my-4">{% trans 'Tasks' %}</h1>
+    
+    <div class="container">
+        <div class="row mb-4">
+            <a class="btn btn-outline-dark" href="{% url 'task_create' %}">
+                {% trans "Create task" %}
+            </a>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+              <th>{% trans 'ID' %}</th>
+              <th>{% trans 'Name' %}</th>
+              <th>{% trans 'Status' %}</th>
+              <th>{% trans 'Author' %}</th>
+              <th>{% trans 'Executor' %}</th>
+              <th>{% trans 'Creation date' %}</th>
+              <th></th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.id }}</td>
+                <td><a href="{% url 'task_detail' task.id %}">{{ task.name|truncatechars:50 }}</a></td>
+                <td>{{ task.status|truncatechars:50 }}</td>
+                <td>{{ task.author|truncatechars:50 }}</td>
+                <td>{{ task.executor|default_if_none:""|truncatechars:50 }}</td>
+                <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
+                <td>
+                    <a class="btn btn-primary btn-sm mb-1" role="button" aria-pressed="true" href="{% url 'task_update' task.id %}">
+                        {% trans 'Update' %}
+                    </a>
+                    <br>
+                    <a class="btn btn-secondary btn-sm" role="button" aria-pressed="true" href="{% url 'task_delete' task.id %}">
+                        {% trans 'Delete' %}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
