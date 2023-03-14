@@ -22,7 +22,7 @@ class TasksListView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'tasks'
 
     def handle_no_permission(self):
-        messages.warning(self.request, MSG_NO_PERMISSION)
+        messages.error(self.request, MSG_NO_PERMISSION)
         return redirect('login')
 
 
@@ -46,7 +46,7 @@ class TaskCreateView(LoginRequiredMixin,
         return super().form_valid(form)
 
     def handle_no_permission(self):
-        messages.warning(self.request, MSG_NO_PERMISSION)
+        messages.error(self.request, MSG_NO_PERMISSION)
         return redirect('login')
 
 
@@ -62,7 +62,7 @@ class TaskDetailView(LoginRequiredMixin,
     }
 
     def handle_no_permission(self):
-        messages.warning(self.request, MSG_NO_PERMISSION)
+        messages.error(self.request, MSG_NO_PERMISSION)
         return redirect('login')
 
 
@@ -82,7 +82,7 @@ class TaskUpdateView(LoginRequiredMixin,
     }
 
     def handle_no_permission(self):
-        messages.warning(self.request, MSG_NO_PERMISSION)
+        messages.error(self.request, MSG_NO_PERMISSION)
         return redirect('login')
 
 
@@ -97,7 +97,7 @@ class TaskDeleteView(LoginRequiredMixin,
     success_message = _('The task successfully deleted')
 
     def handle_no_permission(self):
-        messages.warning(self.request, MSG_NO_PERMISSION)
+        messages.error(self.request, MSG_NO_PERMISSION)
         return redirect('login')
 
     def dispatch(self, request, *args, **kwargs):

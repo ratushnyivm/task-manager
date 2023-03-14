@@ -19,7 +19,7 @@ class StatusesListView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'statuses'
 
     def handle_no_permission(self):
-        messages.warning(self.request, MSG_NO_PERMISSION)
+        messages.error(self.request, MSG_NO_PERMISSION)
         return redirect('login')
 
 
@@ -39,7 +39,7 @@ class StatusCreateView(LoginRequiredMixin,
     }
 
     def handle_no_permission(self):
-        messages.warning(self.request, MSG_NO_PERMISSION)
+        messages.error(self.request, MSG_NO_PERMISSION)
         return redirect('login')
 
 
@@ -59,7 +59,7 @@ class StatusUpdateView(LoginRequiredMixin,
     }
 
     def handle_no_permission(self):
-        messages.warning(self.request, MSG_NO_PERMISSION)
+        messages.error(self.request, MSG_NO_PERMISSION)
         return redirect('login')
 
 
@@ -74,5 +74,5 @@ class StatusDeleteView(LoginRequiredMixin,
     success_message = _('The status successfully deleted')
 
     def handle_no_permission(self):
-        messages.warning(self.request, MSG_NO_PERMISSION)
+        messages.error(self.request, MSG_NO_PERMISSION)
         return redirect('login')

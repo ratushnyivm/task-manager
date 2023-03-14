@@ -33,3 +33,6 @@ shell:
 	${MANAGE} shell
 
 check: lint test requirements
+
+dumpdata:
+	${MANAGE} dumpdata --indent 2 > db.json
