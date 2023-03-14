@@ -52,7 +52,7 @@ class StatusesListViewTest(TestCase):
 
         message = list(response.context.get('messages'))[0]
         self.assertEqual(message.message, MSG_NO_PERMISSION)
-        self.assertEqual(message.tags, 'warning')
+        self.assertEqual(message.tags, 'error')
 
 
 class StatusCreateViewTest(TestCase):
@@ -110,7 +110,7 @@ class StatusCreateViewTest(TestCase):
 
         message = list(response.context.get('messages'))[0]
         self.assertEqual(message.message, MSG_NO_PERMISSION)
-        self.assertEqual(message.tags, 'warning')
+        self.assertEqual(message.tags, 'error')
 
 
 class StatusUpdateViewTest(TestCase):
@@ -173,7 +173,7 @@ class StatusUpdateViewTest(TestCase):
 
         message = list(response.context.get('messages'))[0]
         self.assertEqual(message.message, MSG_NO_PERMISSION)
-        self.assertEqual(message.tags, 'warning')
+        self.assertEqual(message.tags, 'error')
 
 
 class StatusDeleteViewTest(TestCase):
@@ -228,4 +228,4 @@ class StatusDeleteViewTest(TestCase):
 
         message = list(response.context.get('messages'))[0]
         self.assertEqual(message.message, MSG_NO_PERMISSION)
-        self.assertEqual(message.tags, 'warning')
+        self.assertEqual(message.tags, 'error')
