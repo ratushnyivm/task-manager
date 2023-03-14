@@ -179,7 +179,7 @@ class StatusUpdateViewTest(TestCase):
 class StatusDeleteViewTest(TestCase):
     """"Test case for StatusDeleteView"""
 
-    fixtures = ['statuses.json', 'users.json']
+    fixtures = ['statuses.json', 'users.json', 'tasks.json']
 
     def setUp(self) -> None:
         self.client = Client()
@@ -217,6 +217,26 @@ class StatusDeleteViewTest(TestCase):
         message = list(response.context.get('messages'))[0]
         self.assertEqual(message.message, _('The status successfully deleted'))
         self.assertEqual(message.tags, 'success')
+
+    def test_do_not_delete_status_linked_to_task(self) -> None:
+        status_before = Status.objects.get(pk=3)
+
+        response = self.client.post(
+            reverse('status_delete', args=[3]),
+            follow=True
+        )
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertRedirects(response, reverse('statuses_list'))
+
+        status_after = Status.objects.get(pk=3)
+        self.assertEqual(status_before, status_after)
+
+        message = list(response.context.get('messages'))[0]
+        self.assertEqual(
+            message.message,
+            _("Can't delete status because it's in use")
+        )
+        self.assertEqual(message.tags, 'error')
 
     def test_redirect_if_not_logged_in(self) -> None:
         self.client.logout()

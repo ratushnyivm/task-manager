@@ -266,30 +266,30 @@ class UserUpdateViewTest(TestCase):
 class UserDeleteViewTest(TestCase):
     """"Test case for UserDeleteView"""
 
-    fixtures = ['users.json']
+    fixtures = ['users.json', 'tasks.json', 'statuses.json']
 
     def setUp(self) -> None:
         self.client = Client()
-        self.client.force_login(User.objects.get(pk=1))
+        self.client.force_login(User.objects.get(pk=3))
 
     def test_view_url_exists_at_desired_location(self) -> None:
-        response = self.client.get('/users/1/delete/')
+        response = self.client.get('/users/3/delete/')
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_url_accessible_by_name(self) -> None:
-        response = self.client.get(reverse('user_delete', args=[1]))
+        response = self.client.get(reverse('user_delete', args=[3]))
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_uses_correct_template(self) -> None:
-        response = self.client.get(reverse('user_delete', args=[1]))
+        response = self.client.get(reverse('user_delete', args=[3]))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, 'users/user_delete.html')
 
-    def test_delete_status(self) -> None:
+    def test_delete_user(self) -> None:
         length_of_user_list_before = len(User.objects.all())
 
         response = self.client.post(
-            reverse('user_delete', args=[1]),
+            reverse('user_delete', args=[3]),
             follow=True
         )
         self.assertRedirects(response, reverse('users_list'))
@@ -299,13 +299,13 @@ class UserDeleteViewTest(TestCase):
             length_of_user_list_after == length_of_user_list_before - 1
         )
         with self.assertRaises(ObjectDoesNotExist):
-            User.objects.get(pk=1)
+            User.objects.get(pk=3)
 
         message = list(response.context.get('messages'))[0]
         self.assertEqual(message.message, _('User successfully deleted'))
         self.assertEqual(message.tags, 'success')
 
-    def test_do_not_delete_another_user(self):
+    def test_do_not_delete_another_user(self) -> None:
         user_before = User.objects.get(pk=2)
 
         response = self.client.post(
@@ -316,6 +316,27 @@ class UserDeleteViewTest(TestCase):
         self.assertRedirects(response, reverse('users_list'))
 
         user_after = User.objects.get(pk=2)
+        self.assertEqual(user_before, user_after)
+
+        message = list(response.context.get('messages'))[0]
+        self.assertEqual(
+            message.message,
+            _("Can't delete user because it's in use")
+        )
+        self.assertEqual(message.tags, 'error')
+
+    def test_do_not_delete_user_linked_to_task(self) -> None:
+        self.client.force_login(User.objects.get(pk=1))
+        user_before = User.objects.get(pk=1)
+
+        response = self.client.post(
+            reverse('user_delete', args=[1]),
+            follow=True
+        )
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertRedirects(response, reverse('users_list'))
+
+        user_after = User.objects.get(pk=1)
         self.assertEqual(user_before, user_after)
 
         message = list(response.context.get('messages'))[0]
