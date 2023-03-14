@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import ProtectedError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
@@ -76,6 +77,7 @@ class UserDeleteView(LoginRequiredMixin,
     context_object_name = 'user'
     success_url = reverse_lazy('users_list')
     success_message = _('User successfully deleted')
+    unsuccess_message = _("Can't delete user because it's in use")
 
     def handle_no_permission(self):
         messages.error(self.request, MSG_NO_PERMISSION)
@@ -84,9 +86,15 @@ class UserDeleteView(LoginRequiredMixin,
     def dispatch(self, request, *args, **kwargs):
         if request.user.id != self.get_object().id and \
          request.user.is_authenticated:
-            messages.error(
-                self.request,
-                _("Can't delete user because it's in use")
-            )
+            messages.error(self.request, self.unsuccess_message)
             return redirect('users_list')
         return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        try:
+            self.object.delete()
+            messages.success(self.request, self.success_message)
+            return redirect(self.success_url)
+        except ProtectedError:
+            messages.error(self.request, self.unsuccess_message)
+            return redirect(self.success_url)
