@@ -32,7 +32,7 @@ class TaskCreateView(LoginRequiredMixin,
     """Generic class-based view for creating tasks."""
 
     model = Task
-    fields = ('name', 'description', 'status', 'executor')
+    fields = ('name', 'description', 'status', 'executor', 'labels')
     template_name = 'tasks/task_create.html'
     success_url = reverse_lazy('tasks_list')
     success_message = _('The task successfully created')
@@ -72,7 +72,7 @@ class TaskUpdateView(LoginRequiredMixin,
     """Generic class-based view for updating tasks."""
 
     model = Task
-    fields = ('name', 'description', 'status', 'executor')
+    fields = ('name', 'description', 'status', 'executor', 'labels')
     template_name = 'tasks/task_create.html'
     success_url = reverse_lazy('tasks_list')
     success_message = _('The task successfully updated')

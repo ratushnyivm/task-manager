@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext as _
+from task_manager.labels.models import Label
 from task_manager.statuses.models import Status
 
 User = get_user_model()
@@ -9,6 +10,8 @@ MAX_LENGTH = 100
 
 
 class Task(models.Model):
+    """Model representing a task."""
+
     name = models.CharField(
         verbose_name=_('name'),
         max_length=MAX_LENGTH,
@@ -42,6 +45,13 @@ class Task(models.Model):
         verbose_name=_('created at'),
         auto_now_add=True,
     )
+    labels = models.ManyToManyField(
+        Label,
+        verbose_name=_('labels'),
+        blank=True,
+        through='TaskLabel',
+        through_fields=('task', 'label'),
+    )
 
     class Meta:
         verbose_name = _('task')
@@ -49,3 +59,16 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class TaskLabel(models.Model):
+    """Model representing intermediary table linking tasks to labels."""
+
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+    )
+    label = models.ForeignKey(
+        Label,
+        on_delete=models.PROTECT,
+    )
