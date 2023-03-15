@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n bootstrap4 %}
+
+{% block content %}
+    <h1 class="my-5 text-left">{{ header }}</h1>
+
+    <form class="text-left" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% bootstrap_button button button_type="submit" button_class="btn btn-primary"%}
+    </form>
+{% endblock %}
