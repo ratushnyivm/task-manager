@@ -5,49 +5,49 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils.translation import gettext as _
-from task_manager.statuses.models import Status
-from task_manager.statuses.views import MSG_NO_PERMISSION
+from task_manager.labels.models import Label
+from task_manager.labels.views import MSG_NO_PERMISSION
 
 User = get_user_model()
 
 
-class StatusListViewTest(TestCase):
-    """Test case for the StatusListView."""
+class LabelsListViewTest(TestCase):
+    """Test case for the LabelsListView."""
 
-    fixtures = ['statuses.json', 'users.json']
+    fixtures = ['labels.json', 'users.json']
 
     def setUp(self) -> None:
         self.client = Client()
         self.client.force_login(User.objects.get(pk=1))
 
     def test_view_url_exists_at_desired_location(self) -> None:
-        response = self.client.get('/statuses/')
+        response = self.client.get('/labels/')
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_url_accessible_by_name(self) -> None:
-        response = self.client.get(reverse('statuses_list'))
+        response = self.client.get(reverse('label_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_uses_correct_template(self) -> None:
-        response = self.client.get(reverse('statuses_list'))
+        response = self.client.get(reverse('label_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'statuses/statuses_list.html')
+        self.assertTemplateUsed(response, 'labels/label_list.html')
 
-    def test_list_all_statuses(self) -> None:
-        response = self.client.get(reverse('statuses_list'))
+    def test_list_all_labels(self) -> None:
+        response = self.client.get(reverse('label_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(len(response.context['statuses']), 3)
+        self.assertEqual(len(response.context['labels']), 3)
 
     def test_view_has_links_to_change_and_delete(self) -> None:
-        response = self.client.get(reverse('statuses_list'))
+        response = self.client.get(reverse('label_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        for status_id in range(1, len(response.context['statuses']) + 1):
-            self.assertContains(response, f'/statuses/{status_id}/update/')
-            self.assertContains(response, f'/statuses/{status_id}/delete/')
+        for label_id in range(1, len(response.context['labels']) + 1):
+            self.assertContains(response, f'/labels/{label_id}/update/')
+            self.assertContains(response, f'/labels/{label_id}/delete/')
 
     def test_redirect_if_not_logged_in(self) -> None:
         self.client.logout()
-        response = self.client.get(reverse('statuses_list'), follow=True)
+        response = self.client.get(reverse('label_list'), follow=True)
         self.assertRedirects(response, reverse('login'))
 
         message = list(response.context.get('messages'))[0]
@@ -55,57 +55,57 @@ class StatusListViewTest(TestCase):
         self.assertEqual(message.tags, 'error')
 
 
-class StatusCreateViewTest(TestCase):
-    """"Test case for StatusCreateView."""
+class LabelCreateViewTest(TestCase):
+    """"Test case for LabelCreateView."""
 
     fixtures = ['users.json']
 
     def setUp(self) -> None:
         self.client = Client()
         self.client.force_login(User.objects.get(pk=1))
-        self.valid_data = {'name': 'status'}
+        self.valid_data = {'name': 'label'}
         self.invalid_data = {'name': ''}
 
     def test_view_url_exists_at_desired_location(self) -> None:
-        response = self.client.get('/statuses/create/')
+        response = self.client.get('/labels/create/')
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_url_accessible_by_name(self) -> None:
-        response = self.client.get(reverse('status_create'))
+        response = self.client.get(reverse('label_create'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_uses_correct_template(self) -> None:
-        response = self.client.get(reverse('status_create'))
+        response = self.client.get(reverse('label_create'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'statuses/status_create.html')
+        self.assertTemplateUsed(response, 'labels/label_create.html')
 
-    def test_create_status_with_valid_data(self) -> None:
+    def test_create_label_with_valid_data(self) -> None:
         response = self.client.post(
-            reverse('status_create'),
+            reverse('label_create'),
             self.valid_data,
             follow=True
         )
-        self.assertRedirects(response, reverse('statuses_list'))
+        self.assertRedirects(response, reverse('label_list'))
 
-        status = Status.objects.get(pk=1)
-        self.assertEqual(status.name, self.valid_data['name'])
-        self.assertTrue(status.created_at)
+        label = Label.objects.get(pk=1)
+        self.assertEqual(label.name, self.valid_data['name'])
+        self.assertTrue(label.created_at)
 
         message = list(response.context.get('messages'))[0]
-        self.assertEqual(message.message, _('The status successfully created'))
+        self.assertEqual(message.message, _('The label successfully created'))
         self.assertEqual(message.tags, 'success')
 
-    def test_do_not_create_status_with_invalid_data(self) -> None:
+    def test_do_not_create_label_with_invalid_data(self) -> None:
         response = self.client.post(
-            reverse('status_create'),
+            reverse('label_create'),
             self.invalid_data
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertFalse(Status.objects.all())
+        self.assertFalse(Label.objects.all())
 
     def test_redirect_if_not_logged_in(self) -> None:
         self.client.logout()
-        response = self.client.get(reverse('status_create'), follow=True)
+        response = self.client.get(reverse('label_create'), follow=True)
         self.assertRedirects(response, reverse('login'))
 
         message = list(response.context.get('messages'))[0]
@@ -113,10 +113,10 @@ class StatusCreateViewTest(TestCase):
         self.assertEqual(message.tags, 'error')
 
 
-class StatusUpdateViewTest(TestCase):
-    """"Test case for StatusUpdateView."""
+class LabelUpdateViewTest(TestCase):
+    """"Test case for LabelUpdateView."""
 
-    fixtures = ['statuses.json', 'users.json']
+    fixtures = ['labels.json', 'users.json']
 
     def setUp(self) -> None:
         self.client = Client()
@@ -125,48 +125,48 @@ class StatusUpdateViewTest(TestCase):
         self.invalid_data = {'name': ''}
 
     def test_view_url_exists_at_desired_location(self) -> None:
-        response = self.client.get('/statuses/1/update/')
+        response = self.client.get('/labels/1/update/')
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_url_accessible_by_name(self) -> None:
-        response = self.client.get(reverse('status_update', args=[1]))
+        response = self.client.get(reverse('label_update', args=[1]))
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_uses_correct_template(self) -> None:
-        response = self.client.get(reverse('status_update', args=[1]))
+        response = self.client.get(reverse('label_update', args=[1]))
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'statuses/status_create.html')
+        self.assertTemplateUsed(response, 'labels/label_create.html')
 
-    def test_update_status_with_valid_data(self) -> None:
+    def test_update_label_with_valid_data(self) -> None:
         response = self.client.post(
-            reverse('status_update', args=[1]),
+            reverse('label_update', args=[1]),
             self.valid_data,
             follow=True
         )
-        self.assertRedirects(response, reverse('statuses_list'))
+        self.assertRedirects(response, reverse('label_list'))
 
-        status = Status.objects.get(pk=1)
-        self.assertEqual(status.name, self.valid_data['name'])
-        self.assertTrue(status.created_at)
+        label = Label.objects.get(pk=1)
+        self.assertEqual(label.name, self.valid_data['name'])
+        self.assertTrue(label.created_at)
 
         message = list(response.context.get('messages'))[0]
-        self.assertEqual(message.message, _('The status successfully updated'))
+        self.assertEqual(message.message, _('The label successfully updated'))
         self.assertEqual(message.tags, 'success')
 
-    def test_do_not_update_status_with_invalid_data(self) -> None:
-        status_before = Status.objects.get(pk=1)
+    def test_do_not_update_label_with_invalid_data(self) -> None:
+        label_before = Label.objects.get(pk=1)
         response = self.client.post(
-            reverse('status_update', args=[1]),
+            reverse('label_update', args=[1]),
             self.invalid_data
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        status_after = Status.objects.get(pk=1)
-        self.assertEqual(status_before, status_after)
+        label_after = Label.objects.get(pk=1)
+        self.assertEqual(label_before, label_after)
 
     def test_redirect_if_not_logged_in(self) -> None:
         self.client.logout()
         response = self.client.get(
-            reverse('status_update', args=[1]),
+            reverse('label_update', args=[1]),
             follow=True
         )
         self.assertRedirects(response, reverse('login'))
@@ -176,8 +176,8 @@ class StatusUpdateViewTest(TestCase):
         self.assertEqual(message.tags, 'error')
 
 
-class StatusDeleteViewTest(TestCase):
-    """"Test case for StatusDeleteView."""
+class LabelDeleteViewTest(TestCase):
+    """"Test case for LabelDeleteView."""
 
     fixtures = ['labels.json', 'statuses.json', 'tasks.json', 'users.json']
 
@@ -186,62 +186,62 @@ class StatusDeleteViewTest(TestCase):
         self.client.force_login(User.objects.get(pk=1))
 
     def test_view_url_exists_at_desired_location(self) -> None:
-        response = self.client.get('/statuses/1/delete/')
+        response = self.client.get('/labels/1/delete/')
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_url_accessible_by_name(self) -> None:
-        response = self.client.get(reverse('status_delete', args=[1]))
+        response = self.client.get(reverse('label_delete', args=[1]))
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_uses_correct_template(self) -> None:
-        response = self.client.get(reverse('status_delete', args=[1]))
+        response = self.client.get(reverse('label_delete', args=[1]))
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'statuses/status_delete.html')
+        self.assertTemplateUsed(response, 'labels/label_delete.html')
 
-    def test_delete_status(self) -> None:
-        length_of_status_list_before = len(Status.objects.all())
+    def test_delete_label(self) -> None:
+        length_of_label_list_before = len(Label.objects.all())
 
         response = self.client.post(
-            reverse('status_delete', args=[1]),
+            reverse('label_delete', args=[1]),
             follow=True
         )
-        self.assertRedirects(response, reverse('statuses_list'))
+        self.assertRedirects(response, reverse('label_list'))
 
-        length_of_status_list_after = len(Status.objects.all())
+        length_of_label_list_after = len(Label.objects.all())
         self.assertTrue(
-            length_of_status_list_after == length_of_status_list_before - 1
+            length_of_label_list_after == length_of_label_list_before - 1
         )
         with self.assertRaises(ObjectDoesNotExist):
-            Status.objects.get(pk=1)
+            Label.objects.get(pk=1)
 
         message = list(response.context.get('messages'))[0]
-        self.assertEqual(message.message, _('The status successfully deleted'))
+        self.assertEqual(message.message, _('The label successfully deleted'))
         self.assertEqual(message.tags, 'success')
 
-    def test_do_not_delete_status_linked_to_task(self) -> None:
-        status_before = Status.objects.get(pk=3)
+    def test_do_not_delete_label_linked_to_task(self) -> None:
+        label_before = Label.objects.get(pk=3)
 
         response = self.client.post(
-            reverse('status_delete', args=[3]),
+            reverse('label_delete', args=[3]),
             follow=True
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertRedirects(response, reverse('statuses_list'))
+        self.assertRedirects(response, reverse('label_list'))
 
-        status_after = Status.objects.get(pk=3)
-        self.assertEqual(status_before, status_after)
+        label_after = Label.objects.get(pk=3)
+        self.assertEqual(label_before, label_after)
 
         message = list(response.context.get('messages'))[0]
         self.assertEqual(
             message.message,
-            _("Can't delete status because it's in use")
+            _("Can't delete label because it's in use")
         )
         self.assertEqual(message.tags, 'error')
 
     def test_redirect_if_not_logged_in(self) -> None:
         self.client.logout()
         response = self.client.get(
-            reverse('status_delete', args=[1]),
+            reverse('label_delete', args=[1]),
             follow=True
         )
         self.assertRedirects(response, reverse('login'))

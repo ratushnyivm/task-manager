@@ -12,10 +12,10 @@ from task_manager.tasks.views import MSG_NO_PERMISSION
 User = get_user_model()
 
 
-class TasksListViewTest(TestCase):
-    """Test case for the TasksListView."""
+class TaskListViewTest(TestCase):
+    """Test case for the TaskListView."""
 
-    fixtures = ['statuses.json', 'tasks.json', 'users.json']
+    fixtures = ['labels.json', 'statuses.json', 'tasks.json', 'users.json']
 
     def setUp(self) -> None:
         self.client = Client()
@@ -58,7 +58,7 @@ class TasksListViewTest(TestCase):
 
 
 class TaskCreateViewTest(TestCase):
-    """"Test case for TaskCreateView"""
+    """"Test case for TaskCreateView."""
 
     fixtures = ['statuses.json', 'users.json']
 
@@ -199,9 +199,9 @@ class TaskCreateViewTest(TestCase):
 
 
 class TaskDetailViewTest(TestCase):
-    """"Test case for TaskDetailView"""
+    """"Test case for TaskDetailView."""
 
-    fixtures = ['statuses.json', 'tasks.json', 'users.json']
+    fixtures = ['labels.json', 'statuses.json', 'tasks.json', 'users.json']
 
     def setUp(self) -> None:
         self.client = Client()
@@ -256,9 +256,9 @@ class TaskDetailViewTest(TestCase):
 
 
 class TaskUpdateViewTest(TestCase):
-    """"Test case for TaskUpdateView"""
+    """"Test case for TaskUpdateView."""
 
-    fixtures = ['statuses.json', 'tasks.json', 'users.json']
+    fixtures = ['labels.json', 'statuses.json', 'tasks.json', 'users.json']
 
     def setUp(self) -> None:
         self.client = Client()
@@ -418,9 +418,9 @@ class TaskUpdateViewTest(TestCase):
 
 
 class TaskDeleteViewTest(TestCase):
-    """"Test case for TaskDeleteView"""
+    """"Test case for TaskDeleteView."""
 
-    fixtures = ['statuses.json', 'tasks.json', 'users.json']
+    fixtures = ['labels.json', 'statuses.json', 'tasks.json', 'users.json']
 
     def setUp(self) -> None:
         self.client = Client()

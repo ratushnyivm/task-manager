@@ -13,8 +13,8 @@ User = get_user_model()
 ignore_warnings(message="No directory at", module="whitenoise.base").enable()
 
 
-class UsersListViewTest(TestCase):
-    """Test case for the UsersListView."""
+class UserListViewTest(TestCase):
+    """Test case for the UserListView."""
 
     fixtures = ['users.json']
 
@@ -48,7 +48,7 @@ class UsersListViewTest(TestCase):
 
 
 class UserCreateViewTest(TestCase):
-    """"Test case for UserCreateView"""
+    """"Test case for UserCreateView."""
 
     def setUp(self) -> None:
         self.client = Client()
@@ -128,7 +128,7 @@ class UserCreateViewTest(TestCase):
 
 
 class UserUpdateViewTest(TestCase):
-    """"Test case for UserUpdateView"""
+    """"Test case for UserUpdateView."""
 
     fixtures = ['users.json']
 
@@ -264,9 +264,9 @@ class UserUpdateViewTest(TestCase):
 
 
 class UserDeleteViewTest(TestCase):
-    """"Test case for UserDeleteView"""
+    """"Test case for UserDeleteView."""
 
-    fixtures = ['users.json', 'tasks.json', 'statuses.json']
+    fixtures = ['labels.json', 'statuses.json', 'tasks.json', 'users.json']
 
     def setUp(self) -> None:
         self.client = Client()
