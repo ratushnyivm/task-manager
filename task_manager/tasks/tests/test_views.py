@@ -56,6 +56,34 @@ class TaskListViewTest(TestCase):
         self.assertEqual(message.message, MSG_NO_PERMISSION)
         self.assertEqual(message.tags, 'error')
 
+    def test_filter_by_status(self) -> None:
+        response = self.client.get(reverse('tasks_list'), {'status': 3})
+        task_list = response.context['tasks']
+        self.assertIn(Task.objects.get(pk=1), task_list)
+        self.assertIn(Task.objects.get(pk=3), task_list)
+        self.assertNotIn(Task.objects.get(pk=2), task_list)
+
+    def test_filter_by_executor(self) -> None:
+        response = self.client.get(reverse('tasks_list'), {'executor': 1})
+        task_list = response.context['tasks']
+        self.assertIn(Task.objects.get(pk=2), task_list)
+        self.assertIn(Task.objects.get(pk=3), task_list)
+        self.assertNotIn(Task.objects.get(pk=1), task_list)
+
+    def test_filter_by_label(self) -> None:
+        response = self.client.get(reverse('tasks_list'), {'label': 2})
+        task_list = response.context['tasks']
+        self.assertIn(Task.objects.get(pk=3), task_list)
+        self.assertNotIn(Task.objects.get(pk=1), task_list)
+        self.assertNotIn(Task.objects.get(pk=2), task_list)
+
+    def test_filter_by_current_user(self) -> None:
+        response = self.client.get(reverse('tasks_list'), {'self_tasks': 'on'})
+        task_list = response.context['tasks']
+        self.assertIn(Task.objects.get(pk=1), task_list)
+        self.assertNotIn(Task.objects.get(pk=2), task_list)
+        self.assertNotIn(Task.objects.get(pk=3), task_list)
+
 
 class TaskCreateViewTest(TestCase):
     """"Test case for TaskCreateView."""
