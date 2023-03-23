@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n bootstrap4 %}
 
 {% block content %}
     <h1 class="my-4">{% trans 'Tasks' %}</h1>
     
+    <div class="card mb-3">
+        <div class="card-body bg-light">
+            <form class="form-inline center my-auto" method="get">
+                {% bootstrap_form filter.form form_group_class="form-group" field_class="ml-2 mr-3" %}
+                <div><br><br></div>
+                <button class="btn btn-outline-dark">{% trans 'Show' %}</button>
+            </form>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row mb-4">
             <a class="btn btn-outline-dark" href="{% url 'task_create' %}">
