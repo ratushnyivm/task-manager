@@ -105,7 +105,7 @@ class TaskDeleteView(LoginRequiredMixin,
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.id != self.get_object().author.id and \
-         request.user.is_authenticated:
+              request.user.is_authenticated:
             messages.error(
                 self.request,
                 _("The task can only be deleted by its author")
