@@ -58,7 +58,7 @@ class UserUpdateView(LoginRequiredMixin,
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.id != self.get_object().id and \
-              request.user.is_authenticated:
+          request.user.is_authenticated:
             messages.error(
                 self.request,
                 _('You do not have permission to change another user')
@@ -85,7 +85,7 @@ class UserDeleteView(LoginRequiredMixin,
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.id != self.get_object().id and \
-              request.user.is_authenticated:
+          request.user.is_authenticated:
             messages.error(self.request, self.unsuccess_message)
             return redirect('users_list')
         return super().dispatch(request, *args, **kwargs)
