@@ -3,7 +3,15 @@
 
 {% block content %}
     <h1 class="my-4">{% trans 'Tasks' %}</h1>
-    
+
+    <div class="container">
+        <div class="row mb-4">
+            <a class="btn btn-outline-dark" href="{% url 'task_create' %}">
+                {% trans "Create task" %}
+            </a>
+        </div>
+    </div>
+
     <div class="card mb-3">
         <div class="card-body bg-light">
             <form class="form-inline center my-auto" method="get">
@@ -11,14 +19,6 @@
                 <div><br><br></div>
                 <button class="btn btn-outline-dark">{% trans 'Show' %}</button>
             </form>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row mb-4">
-            <a class="btn btn-outline-dark" href="{% url 'task_create' %}">
-                {% trans "Create task" %}
-            </a>
         </div>
     </div>
 
