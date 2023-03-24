@@ -3,14 +3,11 @@ from http import HTTPStatus
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import Client, TestCase
-from django.test.utils import ignore_warnings
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from task_manager.users.views import MSG_NO_PERMISSION
 
 User = get_user_model()
-
-ignore_warnings(message="No directory at", module="whitenoise.base").enable()
 
 
 class UserListViewTest(TestCase):

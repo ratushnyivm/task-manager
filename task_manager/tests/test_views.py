@@ -2,10 +2,13 @@ from http import HTTPStatus
 
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
+from django.test.utils import ignore_warnings
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
 User = get_user_model()
+
+ignore_warnings(message="No directory at", module="whitenoise.base").enable()
 
 
 class HomePageViewTest(TestCase):
