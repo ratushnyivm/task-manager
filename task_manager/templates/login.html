@@ -2,14 +2,16 @@
 {% load i18n bootstrap4 %}
 
 {% block title %}
-    {% trans "Log in" %} | {% trans "Task manager" %}
+    {% translate "Log in" context "NOT BUTTON" %} | {% trans "Task manager" %}
 {% endblock %}
 
 {% block content %}
-    <h1 class="my-4">{% trans "Log in" %}</h1>
+    <h1 class="my-4">{% trans "Log in" context "NOT BUTTON" %}</h1>
     <form method="post">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <button class="btn btn-primary">{% trans "Login" %}</button>
+        <button class="btn btn-primary">
+            {% trans "Login" context "BUTTON" %}
+        </button>
     </form>
 {% endblock %}
