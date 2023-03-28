@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-28 20:30+0300\n"
+"POT-Creation-Date: 2023-03-28 20:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -319,6 +319,7 @@ msgid "Users"
 msgstr "Пользователи"
 
 #: task_manager/templates/components/navbar.html:36
+msgctxt "NOT BUTTON"
 msgid "Log out"
 msgstr "Выход"
 

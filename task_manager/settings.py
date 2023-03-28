@@ -147,7 +147,7 @@ USE_TZ = True
 
 LANGUAGES = (
     ('en', 'English'),
-    ('ru', 'Russian')
+    ('ru', 'Russian'),
 )
 
 LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'),)
