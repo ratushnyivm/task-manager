@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load i18n bootstrap4 %}
 
+{% block title %}
+    {% trans "Tasks" %} | {% trans "Task manager" %}
+{% endblock %}
+
 {% block content %}
     <h1 class="my-4">{% trans 'Tasks' %}</h1>
 

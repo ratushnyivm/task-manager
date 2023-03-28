@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block header %}{% endblock %}
+{% block title %}
+    {% trans "Delete user" %} | {% trans "Task manager" %}
+{% endblock %}
+
 {% block content %}
 <h1 class="my-3 text-left">{% trans 'Delete user' %}</h1>
 <form class="text-left" method="post">
@@ -15,4 +18,4 @@
     </p>
     <button type="submit" class="btn btn-danger" value="Confirm">{% trans 'Yes, delete' %}</button>
 </form>
-{% endblock content %}
+{% endblock %}

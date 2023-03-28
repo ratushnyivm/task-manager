@@ -1,10 +1,14 @@
 from django.db import models
 from django.utils.translation import gettext as _
 
+MAX_LENGTH = 100
+
 
 class Status(models.Model):
+    """Model representing a status."""
+
     name = models.CharField(
-        max_length=100,
+        max_length=MAX_LENGTH,
         unique=True,
         blank=False,
         verbose_name=_('name')

@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block header %}{% endblock %}
+{% block title %}
+    {% trans "Delete status" %} | {% trans "Task manager" %}
+{% endblock %}
+
 {% block content %}
 <h1 class="my-3 text-left">{% trans 'Delete status' %}</h1>
 <form class="text-left" method="post">

@@ -7,9 +7,10 @@ from django.urls import reverse
 from django.utils.translation import gettext as _
 from task_manager.statuses.models import Status
 from task_manager.tasks.models import Task
-from task_manager.tasks.views import MSG_NO_PERMISSION
 
 User = get_user_model()
+
+MSG_NO_PERMISSION = _('You are not authorized! Please sign in.')
 
 
 class TaskListViewTest(TestCase):
@@ -26,21 +27,21 @@ class TaskListViewTest(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_url_accessible_by_name(self) -> None:
-        response = self.client.get(reverse('tasks_list'))
+        response = self.client.get(reverse('task_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_uses_correct_template(self) -> None:
-        response = self.client.get(reverse('tasks_list'))
+        response = self.client.get(reverse('task_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'tasks/tasks_list.html')
+        self.assertTemplateUsed(response, 'tasks/task_list.html')
 
     def test_list_all_tasks(self) -> None:
-        response = self.client.get(reverse('tasks_list'))
+        response = self.client.get(reverse('task_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(len(response.context['tasks']), 3)
 
     def test_view_has_links_to_detail_and_update_and_delete(self) -> None:
-        response = self.client.get(reverse('tasks_list'))
+        response = self.client.get(reverse('task_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         for task_id in range(1, len(response.context['tasks']) + 1):
             self.assertContains(response, f'/tasks/{task_id}/')
@@ -49,7 +50,7 @@ class TaskListViewTest(TestCase):
 
     def test_redirect_if_not_logged_in(self) -> None:
         self.client.logout()
-        response = self.client.get(reverse('tasks_list'), follow=True)
+        response = self.client.get(reverse('task_list'), follow=True)
         self.assertRedirects(response, reverse('login'))
 
         message = list(response.context.get('messages'))[0]
@@ -57,28 +58,28 @@ class TaskListViewTest(TestCase):
         self.assertEqual(message.tags, 'error')
 
     def test_filter_by_status(self) -> None:
-        response = self.client.get(reverse('tasks_list'), {'status': 3})
+        response = self.client.get(reverse('task_list'), {'status': 3})
         task_list = response.context['tasks']
         self.assertIn(Task.objects.get(pk=1), task_list)
         self.assertIn(Task.objects.get(pk=3), task_list)
         self.assertNotIn(Task.objects.get(pk=2), task_list)
 
     def test_filter_by_executor(self) -> None:
-        response = self.client.get(reverse('tasks_list'), {'executor': 1})
+        response = self.client.get(reverse('task_list'), {'executor': 1})
         task_list = response.context['tasks']
         self.assertIn(Task.objects.get(pk=2), task_list)
         self.assertIn(Task.objects.get(pk=3), task_list)
         self.assertNotIn(Task.objects.get(pk=1), task_list)
 
     def test_filter_by_label(self) -> None:
-        response = self.client.get(reverse('tasks_list'), {'label': 2})
+        response = self.client.get(reverse('task_list'), {'label': 2})
         task_list = response.context['tasks']
         self.assertIn(Task.objects.get(pk=3), task_list)
         self.assertNotIn(Task.objects.get(pk=1), task_list)
         self.assertNotIn(Task.objects.get(pk=2), task_list)
 
     def test_filter_by_current_user(self) -> None:
-        response = self.client.get(reverse('tasks_list'), {'self_tasks': 'on'})
+        response = self.client.get(reverse('task_list'), {'self_tasks': 'on'})
         task_list = response.context['tasks']
         self.assertIn(Task.objects.get(pk=1), task_list)
         self.assertNotIn(Task.objects.get(pk=2), task_list)
@@ -120,7 +121,7 @@ class TaskCreateViewTest(TestCase):
             self.valid_data,
             follow=True
         )
-        self.assertRedirects(response, reverse('tasks_list'))
+        self.assertRedirects(response, reverse('task_list'))
 
         task = Task.objects.get(pk=1)
         self.assertEqual(task.name, self.valid_data['name'])
@@ -148,7 +149,7 @@ class TaskCreateViewTest(TestCase):
             self.valid_data,
             follow=True
         )
-        self.assertRedirects(response, reverse('tasks_list'))
+        self.assertRedirects(response, reverse('task_list'))
 
         task = Task.objects.get(pk=1)
         self.assertEqual(task.name, self.valid_data['name'])
@@ -176,7 +177,7 @@ class TaskCreateViewTest(TestCase):
             self.valid_data,
             follow=True
         )
-        self.assertRedirects(response, reverse('tasks_list'))
+        self.assertRedirects(response, reverse('task_list'))
 
         task = Task.objects.get(pk=1)
         self.assertEqual(task.name, self.valid_data['name'])
@@ -318,7 +319,7 @@ class TaskUpdateViewTest(TestCase):
             self.valid_data,
             follow=True
         )
-        self.assertRedirects(response, reverse('tasks_list'))
+        self.assertRedirects(response, reverse('task_list'))
 
         task = Task.objects.get(pk=1)
         self.assertEqual(task.name, self.valid_data['name'])
@@ -346,7 +347,7 @@ class TaskUpdateViewTest(TestCase):
             self.valid_data,
             follow=True
         )
-        self.assertRedirects(response, reverse('tasks_list'))
+        self.assertRedirects(response, reverse('task_list'))
 
         task = Task.objects.get(pk=1)
         self.assertEqual(task.name, self.valid_data['name'])
@@ -374,7 +375,7 @@ class TaskUpdateViewTest(TestCase):
             self.valid_data,
             follow=True
         )
-        self.assertRedirects(response, reverse('tasks_list'))
+        self.assertRedirects(response, reverse('task_list'))
 
         task = Task.objects.get(pk=1)
         self.assertEqual(task.name, self.valid_data['name'])
@@ -474,7 +475,7 @@ class TaskDeleteViewTest(TestCase):
             reverse('task_delete', args=[1]),
             follow=True
         )
-        self.assertRedirects(response, reverse('tasks_list'))
+        self.assertRedirects(response, reverse('task_list'))
 
         length_of_task_list_after = len(Task.objects.all())
         self.assertTrue(
@@ -495,7 +496,7 @@ class TaskDeleteViewTest(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertRedirects(response, reverse('tasks_list'))
+        self.assertRedirects(response, reverse('task_list'))
 
         task_after = Task.objects.get(pk=2)
         self.assertEqual(task_before, task_after)

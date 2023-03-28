@@ -6,9 +6,10 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from task_manager.statuses.models import Status
-from task_manager.statuses.views import MSG_NO_PERMISSION
 
 User = get_user_model()
+
+MSG_NO_PERMISSION = _('You are not authorized! Please sign in.')
 
 
 class StatusListViewTest(TestCase):
@@ -25,21 +26,21 @@ class StatusListViewTest(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_url_accessible_by_name(self) -> None:
-        response = self.client.get(reverse('statuses_list'))
+        response = self.client.get(reverse('status_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_uses_correct_template(self) -> None:
-        response = self.client.get(reverse('statuses_list'))
+        response = self.client.get(reverse('status_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'statuses/statuses_list.html')
+        self.assertTemplateUsed(response, 'statuses/status_list.html')
 
     def test_list_all_statuses(self) -> None:
-        response = self.client.get(reverse('statuses_list'))
+        response = self.client.get(reverse('status_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(len(response.context['statuses']), 3)
 
     def test_view_has_links_to_change_and_delete(self) -> None:
-        response = self.client.get(reverse('statuses_list'))
+        response = self.client.get(reverse('status_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         for status_id in range(1, len(response.context['statuses']) + 1):
             self.assertContains(response, f'/statuses/{status_id}/update/')
@@ -47,7 +48,7 @@ class StatusListViewTest(TestCase):
 
     def test_redirect_if_not_logged_in(self) -> None:
         self.client.logout()
-        response = self.client.get(reverse('statuses_list'), follow=True)
+        response = self.client.get(reverse('status_list'), follow=True)
         self.assertRedirects(response, reverse('login'))
 
         message = list(response.context.get('messages'))[0]
@@ -85,7 +86,7 @@ class StatusCreateViewTest(TestCase):
             self.valid_data,
             follow=True
         )
-        self.assertRedirects(response, reverse('statuses_list'))
+        self.assertRedirects(response, reverse('status_list'))
 
         status = Status.objects.get(pk=1)
         self.assertEqual(status.name, self.valid_data['name'])
@@ -143,7 +144,7 @@ class StatusUpdateViewTest(TestCase):
             self.valid_data,
             follow=True
         )
-        self.assertRedirects(response, reverse('statuses_list'))
+        self.assertRedirects(response, reverse('status_list'))
 
         status = Status.objects.get(pk=1)
         self.assertEqual(status.name, self.valid_data['name'])
@@ -205,7 +206,7 @@ class StatusDeleteViewTest(TestCase):
             reverse('status_delete', args=[1]),
             follow=True
         )
-        self.assertRedirects(response, reverse('statuses_list'))
+        self.assertRedirects(response, reverse('status_list'))
 
         length_of_status_list_after = len(Status.objects.all())
         self.assertTrue(
@@ -226,7 +227,7 @@ class StatusDeleteViewTest(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertRedirects(response, reverse('statuses_list'))
+        self.assertRedirects(response, reverse('status_list'))
 
         status_after = Status.objects.get(pk=3)
         self.assertEqual(status_before, status_after)

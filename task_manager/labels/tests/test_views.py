@@ -6,9 +6,10 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from task_manager.labels.models import Label
-from task_manager.labels.views import MSG_NO_PERMISSION
 
 User = get_user_model()
+
+MSG_NO_PERMISSION = _('You are not authorized! Please sign in.')
 
 
 class LabelsListViewTest(TestCase):

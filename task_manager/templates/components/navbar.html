@@ -11,18 +11,18 @@
 
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'users_list' %}">{% trans 'Users' %}</a>
+                <a class="nav-link" href="{% url 'user_list' %}">{% trans 'Users' %}</a>
             </li>
 
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'statuses_list' %}">{% trans 'Statuses' %}</a>
+                    <a class="nav-link" href="{% url 'status_list' %}">{% trans 'Statuses' %}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'label_list' %}">{% trans 'Labels' %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'tasks_list' %}">{% trans 'Tasks' %}</a>
+                    <a class="nav-link" href="{% url 'task_list' %}">{% trans 'Tasks' %}</a>
                 </li>
             {% endif %}
         </ul>
@@ -33,14 +33,14 @@
                 <a class="nav-link" href="{% url 'user_update' user.id %}">{{ user.username|truncatechars:15 }}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">{% trans 'Log Out' %}</a>
+                <a class="nav-link" href="{% url 'logout' %}">{% trans 'Log out' %}</a>
             </li>
         {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}">{% trans 'Log In' %}</a>
+              <a class="nav-link" href="{% url 'login' %}">{% trans 'Log in' %}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'user_create' %}">{% trans 'Sign Up' %}</a>
+              <a class="nav-link" href="{% url 'user_create' %}">{% trans 'Sign up' %}</a>
             </li>
         {% endif %}
         </ul>

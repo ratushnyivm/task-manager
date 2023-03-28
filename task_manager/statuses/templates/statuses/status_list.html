@@ -2,16 +2,16 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans "Labels" %} | {% trans "Task manager" %}
+    {% trans "Statuses" %} | {% trans "Task manager" %}
 {% endblock %}
 
 {% block content %}
-    <h1 class="my-4">{% trans 'Labels' %}</h1>
+    <h1 class="my-4">{% trans 'Statuses' %}</h1>
     
     <div class="container">
         <div class="row mb-4">
-            <a class="btn btn-outline-dark" href="{% url 'label_create' %}">
-                {% trans "Create label" %}
+            <a class="btn btn-outline-dark" href="{% url 'status_create' %}">
+                {% trans "Create status" %}
             </a>
         </div>
     </div>
@@ -27,17 +27,17 @@
         </thead>
         
         <tbody>
-            {% for label in labels %}
+            {% for status in statuses %}
             <tr>
-                <td>{{ label.id }}</td>
-                <td>{{ label.name }}</td>
-                <td>{{ label.created_at|date:"d.m.Y H:i" }}</td>
+                <td>{{ status.id }}</td>
+                <td>{{ status.name }}</td>
+                <td>{{ status.created_at|date:"d.m.Y H:i" }}</td>
                 <td>
-                    <a class="btn btn-primary btn-sm mb-1" role="button" aria-pressed="true" href="{% url 'label_update' label.id %}">
+                    <a class="btn btn-primary btn-sm mb-1" role="button" aria-pressed="true" href="{% url 'status_update' status.id %}">
                         {% trans 'Update' %}
                     </a>
                     <br>
-                    <a class="btn btn-secondary btn-sm" role="button" aria-pressed="true" href="{% url 'label_delete' label.id %}">
+                    <a class="btn btn-secondary btn-sm" role="button" aria-pressed="true" href="{% url 'status_delete' status.id %}">
                         {% trans 'Delete' %}
                     </a>
                 </td>

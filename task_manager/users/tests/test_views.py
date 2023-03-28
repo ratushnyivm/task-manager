@@ -5,9 +5,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.test import Client, TestCase
 from django.urls import reverse
 from django.utils.translation import gettext as _
-from task_manager.users.views import MSG_NO_PERMISSION
 
 User = get_user_model()
+
+MSG_NO_PERMISSION = _('You are not authorized! Please sign in.')
 
 
 class UserListViewTest(TestCase):
@@ -23,21 +24,21 @@ class UserListViewTest(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_url_accessible_by_name(self) -> None:
-        response = self.client.get(reverse('users_list'))
+        response = self.client.get(reverse('user_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_view_uses_correct_template(self) -> None:
-        response = self.client.get(reverse('users_list'))
+        response = self.client.get(reverse('user_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, 'users/users_list.html')
+        self.assertTemplateUsed(response, 'users/user_list.html')
 
     def test_list_all_users(self) -> None:
-        response = self.client.get(reverse('users_list'))
+        response = self.client.get(reverse('user_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(len(response.context['users']), 3)
 
     def test_view_has_links_to_change_and_delete(self) -> None:
-        response = self.client.get(reverse('users_list'))
+        response = self.client.get(reverse('user_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         for user_id in range(1, len(response.context['users']) + 1):
             self.assertContains(response, f'/users/{user_id}/update/')
@@ -159,7 +160,7 @@ class UserUpdateViewTest(TestCase):
             self.valid_data,
             follow=True
         )
-        self.assertRedirects(response, reverse('users_list'))
+        self.assertRedirects(response, reverse('user_list'))
 
         user = User.objects.get(pk=1)
         self.assertEqual(user.username, self.valid_data['username'])
@@ -289,7 +290,7 @@ class UserDeleteViewTest(TestCase):
             reverse('user_delete', args=[3]),
             follow=True
         )
-        self.assertRedirects(response, reverse('users_list'))
+        self.assertRedirects(response, reverse('user_list'))
 
         length_of_user_list_after = len(User.objects.all())
         self.assertTrue(
@@ -310,7 +311,7 @@ class UserDeleteViewTest(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertRedirects(response, reverse('users_list'))
+        self.assertRedirects(response, reverse('user_list'))
 
         user_after = User.objects.get(pk=2)
         self.assertEqual(user_before, user_after)
@@ -331,7 +332,7 @@ class UserDeleteViewTest(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertRedirects(response, reverse('users_list'))
+        self.assertRedirects(response, reverse('user_list'))
 
         user_after = User.objects.get(pk=1)
         self.assertEqual(user_before, user_after)

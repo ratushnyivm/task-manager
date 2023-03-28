@@ -1,16 +1,28 @@
 {% extends 'base.html' %}
+{% load i18n bootstrap4 %}
+
+{% block title %}{% trans "Task manager" %}{% endblock %}
 
 {% block content %}
-    
     <div class="container wrapper flex-grow-1">
       <div class="card">
         <div class="card-body p-5 bg-light">
-          <div class="display-4">Привет от Хекслета!</div>
-          <p class="lead">Практические курсы по программированию</p>
+          <h1 class="mb-3">{% trans "Welcome to the task manager!" %}</h1>
+          <h4>{% trans "If you're already registered, please log in. If not, register now to start using our app." %}</h4>
           <hr>
-          <a class="btn btn-primary btn-lg" href="https://ru.hexlet.io">Узнать больше</a>
+          <h4>{% trans "Creating a task is easy:" %}</h4>
+          <ul>
+            <li class="h5">{% trans 'Go to the "Tasks" tab' %}</li>
+            <li class="h5">{% trans 'Click the "Create task" button' %}</li>
+            <li class="h5">{% trans "Name the task and describe it if necessary" %}</li>
+            <li class="h5">{% trans 'Choose a status from the available options or create a new one on the "Statuses" tab' %}</li>
+            <li class="h5">{% trans "Assign an executor if necessary" %}</li>
+            <li class="h5">{% trans 'Add labels if needed, choosing from existing ones or creating a new one on the "Labels" tab' %}</li>
+            <li class="h5">{% trans 'Click "Create task" and you are done!' %}</li>
+          </ul>
+          <hr>
+          <h4>{% trans "Thank you for using our task manager. We're sure you'll be great at managing your projects with our app." %}</h4>
         </div>
       </div>
     </div>
-
 {% endblock %}

@@ -1,30 +1,24 @@
-from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import ProtectedError
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from django.views import generic
+from task_manager.mixins import (
+    CustomLoginRequiredMixin,
+    DeletionProtectionMixin,
+)
 
 from .models import Status
 
-MSG_NO_PERMISSION = _('You are not authorized! Please sign in.')
 
-
-class StatusesListView(LoginRequiredMixin, generic.ListView):
+class StatusesListView(CustomLoginRequiredMixin, generic.ListView):
     """Generic class-based view for a list of statuses."""
 
     model = Status
-    template_name = 'statuses/statuses_list.html'
+    template_name = 'statuses/status_list.html'
     context_object_name = 'statuses'
 
-    def handle_no_permission(self):
-        messages.error(self.request, MSG_NO_PERMISSION)
-        return redirect('login')
 
-
-class StatusCreateView(LoginRequiredMixin,
+class StatusCreateView(CustomLoginRequiredMixin,
                        SuccessMessageMixin,
                        generic.CreateView):
     """Generic class-based view for creating statuses."""
@@ -32,19 +26,15 @@ class StatusCreateView(LoginRequiredMixin,
     model = Status
     fields = ('name',)
     template_name = 'statuses/status_create.html'
-    success_url = reverse_lazy('statuses_list')
+    success_url = reverse_lazy('status_list')
     success_message = _('The status successfully created')
     extra_context = {
         'header': _('Create status'),
         'button': _('Create')
     }
 
-    def handle_no_permission(self):
-        messages.error(self.request, MSG_NO_PERMISSION)
-        return redirect('login')
 
-
-class StatusUpdateView(LoginRequiredMixin,
+class StatusUpdateView(CustomLoginRequiredMixin,
                        SuccessMessageMixin,
                        generic.UpdateView):
     """Generic class-based view for updating statuses."""
@@ -52,38 +42,22 @@ class StatusUpdateView(LoginRequiredMixin,
     model = Status
     fields = ('name',)
     template_name = 'statuses/status_create.html'
-    success_url = reverse_lazy('statuses_list')
+    success_url = reverse_lazy('status_list')
     success_message = _('The status successfully updated')
     extra_context = {
         'header': _('Update status'),
         'button': _('Update')
     }
 
-    def handle_no_permission(self):
-        messages.error(self.request, MSG_NO_PERMISSION)
-        return redirect('login')
 
-
-class StatusDeleteView(LoginRequiredMixin,
+class StatusDeleteView(CustomLoginRequiredMixin,
+                       DeletionProtectionMixin,
                        SuccessMessageMixin,
                        generic.DeleteView):
     """Generic class-based view for deleting statuses."""
 
     model = Status
     template_name = 'statuses/status_delete.html'
-    success_url = reverse_lazy('statuses_list')
+    success_url = reverse_lazy('status_list')
     success_message = _('The status successfully deleted')
-    unsuccess_message = _("Can't delete status because it's in use")
-
-    def handle_no_permission(self):
-        messages.error(self.request, MSG_NO_PERMISSION)
-        return redirect('login')
-
-    def form_valid(self, form):
-        try:
-            self.object.delete()
-            messages.success(self.request, self.success_message)
-            return redirect(self.success_url)
-        except ProtectedError:
-            messages.error(self.request, self.unsuccess_message)
-            return redirect(self.success_url)
+    error_message = _("Can't delete status because it's in use")
