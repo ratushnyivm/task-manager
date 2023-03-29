@@ -16,6 +16,20 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
         return redirect('login')
 
 
+class OwnerOnlyAccessMixin(LoginRequiredMixin):
+    """Restrict modification and deletion access for non-owners."""
+
+    success_url = reverse_lazy('home')
+    error_message = 'Modification error message'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.id != self.get_object().id and \
+                request.user.is_authenticated:
+            messages.error(self.request, self.error_message)
+            return redirect(self.success_url)
+        return super().dispatch(request, *args, **kwargs)
+
+
 class DeletionProtectionMixin:
     """Limit deletion of an object that has a reference to it."""
 

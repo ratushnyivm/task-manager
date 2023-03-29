@@ -1,13 +1,12 @@
-from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from django.views import generic
 from task_manager.mixins import (
     CustomLoginRequiredMixin,
     DeletionProtectionMixin,
+    OwnerOnlyAccessMixin,
 )
 
 from .forms import UserCreationAndChangeForm
@@ -15,7 +14,7 @@ from .forms import UserCreationAndChangeForm
 User = get_user_model()
 
 
-class UsersListView(generic.ListView):
+class UserListView(generic.ListView):
     """Generic class-based view for a list of users."""
 
     model = User
@@ -38,6 +37,7 @@ class UserCreateView(SuccessMessageMixin, generic.CreateView):
 
 
 class UserUpdateView(CustomLoginRequiredMixin,
+                     OwnerOnlyAccessMixin,
                      SuccessMessageMixin,
                      generic.UpdateView):
     """Generic class-based view for updating users."""
@@ -51,19 +51,11 @@ class UserUpdateView(CustomLoginRequiredMixin,
         'header': _('Update user'),
         'button': _('Update')
     }
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.id != self.get_object().id and \
-                request.user.is_authenticated:
-            messages.error(
-                self.request,
-                _('You do not have permission to change another user')
-            )
-            return redirect('user_list')
-        return super().dispatch(request, *args, **kwargs)
+    error_message = _('You do not have permission to change another user')
 
 
 class UserDeleteView(CustomLoginRequiredMixin,
+                     OwnerOnlyAccessMixin,
                      DeletionProtectionMixin,
                      SuccessMessageMixin,
                      generic.DeleteView):
@@ -75,10 +67,3 @@ class UserDeleteView(CustomLoginRequiredMixin,
     success_url = reverse_lazy('user_list')
     success_message = _('User successfully deleted')
     error_message = _("Can't delete user because it's in use")
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.id != self.get_object().id and \
-                request.user.is_authenticated:
-            messages.error(self.request, self.error_message)
-            return redirect('user_list')
-        return super().dispatch(request, *args, **kwargs)

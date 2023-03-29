@@ -10,7 +10,7 @@ from task_manager.mixins import (
 from .models import Status
 
 
-class StatusesListView(CustomLoginRequiredMixin, generic.ListView):
+class StatusListView(CustomLoginRequiredMixin, generic.ListView):
     """Generic class-based view for a list of statuses."""
 
     model = Status

@@ -14,7 +14,7 @@ from .models import Task
 User = get_user_model()
 
 
-class TasksListView(CustomLoginRequiredMixin, FilterView):
+class TaskListView(CustomLoginRequiredMixin, FilterView):
     """Generic class-based view for a list of tasks."""
 
     model = Task
@@ -80,13 +80,11 @@ class TaskDeleteView(CustomLoginRequiredMixin,
     template_name = 'tasks/task_delete.html'
     success_url = reverse_lazy('task_list')
     success_message = _('The task successfully deleted')
+    error_message = _("The task can only be deleted by its author")
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.id != self.get_object().author.id and \
                 request.user.is_authenticated:
-            messages.error(
-                self.request,
-                _("The task can only be deleted by its author")
-            )
-            return redirect('task_list')
+            messages.error(self.request, self.error_message)
+            return redirect(self.success_url)
         return super().dispatch(request, *args, **kwargs)

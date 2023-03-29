@@ -12,8 +12,8 @@ User = get_user_model()
 MSG_NO_PERMISSION = _('You are not authorized! Please sign in.')
 
 
-class LabelsListViewTest(TestCase):
-    """Test case for the LabelsListView."""
+class LabelListViewTest(TestCase):
+    """Test case for the LabelListView."""
 
     fixtures = ['labels.json', 'users.json']
 
