@@ -1,5 +1,8 @@
 MANAGE := poetry run python3 manage.py
 
+install:
+	poetry install
+
 start:
 	${MANAGE} runserver
 
@@ -11,8 +14,8 @@ test:
 
 test-coverage:
 	poetry run coverage run manage.py test
-	poetry run coverage xml --omit=*/tests/*,*/migrations/*,*__init__.py
-	poetry run coverage report --omit=*/tests/*,*/migrations/*,*__init__.py
+	poetry run coverage xml --omit=*/tests/*,*/migrations/*,*__init__.py,*settings.py
+	poetry run coverage report --omit=*/tests/*,*/migrations/*,*__init__.py,*settings.py
 
 requirements:
 	poetry export -f requirements.txt --without-hashes -o requirements.txt
@@ -23,10 +26,8 @@ makemessages:
 compilemessages:
 	poetry run django-admin compilemessages --ignore="static" --ignore=".venv"
 
-migrations:
-	${MANAGE} makemigrations
-
 migrate:
+	${MANAGE} makemigrations
 	${MANAGE} migrate
 
 shell:
