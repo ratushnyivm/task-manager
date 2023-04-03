@@ -14,10 +14,30 @@
 
 ## Description
 
-Task manager is a web application that allows managing tasks. Users can create, edit and track tasks, assign performers, and change their statuses. Registration and authentication are required to work with the system.  
-Tasks are the main entity of the application and consist of a name and description. A performer can be assigned to each task to complete it. Additionally, each task has mandatory fields: author (set automatically when the task is created) and status.  
-The status indicates what is happening with the task, whether it is done or not. Tasks can be in the following statuses: "new", "in progress", "in testing", "completed", etc.  
+Task manager is a web application that allows managing tasks. Users can create, edit and track tasks, assign performers, and change their statuses. Registration and authentication are required to work with the system.
+
+Tasks are the main entity of the application and consist of a name and description. A performer can be assigned to each task to complete it. Additionally, each task has mandatory fields: author (set automatically when the task is created) and status.
+
+The status indicates what is happening with the task, whether it is done or not. Tasks can be in the following statuses: "new", "in progress", "in testing", "completed", etc.
+
 Each task can also have a set of labels that allow grouping tasks by different characteristics such as bugs, features, etc.
+
+---
+
+## Dependencies
+
+| Tool              | Version         |
+|-------------------|-----------------|
+| python            | "^3.10.0"       |
+| django            | "4.1.7"         |
+| python-dotenv     | "^0.21.1"       |
+| gunicorn          | "^20.1.0"       |
+| whitenoise        | "^6.3.0"        |
+| django-bootstrap4 | "^22.3"         |
+| dj-database-url   | "^0.5.0"        |
+| psycopg2-binary   | "^2.9.5"        |
+| django-filter     | "^22.1"         |
+| rollbar           | "^0.16.3"       |
 
 ---
 
@@ -28,7 +48,7 @@ Before installation, make sure that you have [Python](https://www.python.org/) a
 1. Clone this repository
 
     ```bash
-    >> git clone https://github.com/ratushnyyvm/python-project-52.git && cd python-project-52
+    >> git clone https://github.com/ratushnyyvm/task-manager.git && cd task-manager
     ```
 
 2. Install all necessary dependencies:
@@ -64,6 +84,22 @@ Before installation, make sure that you have [Python](https://www.python.org/) a
 ---
 
 ## Usage
+
+![home page](/docs/images/home.png)
+
+![user list](/docs/images/user_list.png)
+
+![create user](/docs/images/user_create.png)
+
+![login](/docs/images/login.png)
+
+![task list](/docs/images/task_list.png)
+
+![task detail](/docs/images/task_detail.png)
+
+![status list](/docs/images/status_list.png)
+
+![label list](/docs/images/label_list.png)
 
 ---
 
