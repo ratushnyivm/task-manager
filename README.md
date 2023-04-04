@@ -2,11 +2,11 @@
 
 # Task Manager
 
-[![Actions Status](https://github.com/ratushnyyvm/python-project-52/workflows/hexlet-check/badge.svg)](https://github.com/ratushnyyvm/python-project-52/actions)
-[![linter-check](https://github.com/ratushnyyvm/python-project-52/actions/workflows/linter-check.yml/badge.svg)](https://github.com/ratushnyyvm/python-project-52/actions/workflows/linter-check.yml)
-[![test-check](https://github.com/ratushnyyvm/python-project-52/actions/workflows/test-check.yml/badge.svg)](https://github.com/ratushnyyvm/python-project-52/actions/workflows/test-check.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/c030b35154e03f634490/maintainability)](https://codeclimate.com/github/ratushnyyvm/python-project-52/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/c030b35154e03f634490/test_coverage)](https://codeclimate.com/github/ratushnyyvm/python-project-52/test_coverage)
+[![hexlet-check](https://github.com/ratushnyyvm/task-manager/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/ratushnyyvm/task-manager/actions/workflows/hexlet-check.yml)
+[![linter-check](https://github.com/ratushnyyvm/task-manager/actions/workflows/linter-check.yml/badge.svg)](https://github.com/ratushnyyvm/task-manager/actions/workflows/linter-check.yml)
+[![test-check](https://github.com/ratushnyyvm/task-manager/actions/workflows/test-check.yml/badge.svg)](https://github.com/ratushnyyvm/task-manager/actions/workflows/test-check.yml)
+[![Maintainability](https://api.codeclimate.com/v1/badges/665749dc9b92ea93472e/maintainability)](https://codeclimate.com/github/ratushnyyvm/task-manager/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/665749dc9b92ea93472e/test_coverage)](https://codeclimate.com/github/ratushnyyvm/task-manager/test_coverage)
 
 </div>
 
@@ -130,6 +130,12 @@ Limitations:
 
 ## Demonstration
 
-The demo version is available on Railway platform: https://python-project-52-production-3063.up.railway.app/
+The demo version is available on Railway platform: `link`
 
 ---
+
+<div align="right">
+
+[:arrow_up: UP :arrow_up:](#task-manager)
+
+</div>
