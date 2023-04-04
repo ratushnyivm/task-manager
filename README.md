@@ -85,21 +85,46 @@ Before installation, make sure that you have [Python](https://www.python.org/) a
 
 ## Usage
 
+For unregistered and non-logged-in users, the following options are available:
+
+- homepage with a brief instruction on how to use the application
 ![home page](/docs/images/home.png)
 
+- page with a list of all registered users
 ![user list](/docs/images/user_list.png)
 
+- user registration
 ![create user](/docs/images/user_create.png)
 
+- login to the system
 ![login](/docs/images/login.png)
 
+After logging in, the user will have access to three additional tabs: "Statuses", "Labels", and "Tasks".
+
+The "Tasks" tab allows the following actions:
+
+- viewing the list of tasks and filtering, editing, and deleting tasks
 ![task list](/docs/images/task_list.png)
 
+- creating a new task
+![task create](/docs/images/task_create.png)
+
+- viewing a specific task
 ![task detail](/docs/images/task_detail.png)
 
+To customize tasks, the "Statuses" and "Labels" tabs are available:
+
+- creating, listing, editing, and deleting statuses
 ![status list](/docs/images/status_list.png)
 
+- creating, listing, editing, and deleting labels
 ![label list](/docs/images/label_list.png)
+
+Limitations:
+
+- only the user themselves can edit or delete their account
+- it is not possible to delete a user, status, or label that is referenced in a task
+- only the author of a task can delete it
 
 ---
 
