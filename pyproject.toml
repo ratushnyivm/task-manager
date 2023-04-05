@@ -1,9 +1,15 @@
 [tool.poetry]
 name = "hexlet-code"
 version = "0.1.0"
-description = ""
+description = "web app for task management"
 authors = ["ratushnyyvm <ratushnyyvm@gmail.com>"]
 readme = "README.md"
+repository = "https://github.com/ratushnyyvm/task-manager"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Framework :: Django :: 4.1",
+  "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"
+]
 packages = [
     {include = "task_manager"}
 ]
