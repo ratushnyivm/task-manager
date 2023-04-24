@@ -12,6 +12,12 @@
 
 ---
 
+## Demonstration
+
+Deployed on a VPS server using nginx, gunicorn, and supervisor: http://195.133.146.48/
+
+---
+
 ## Description
 
 Task manager is a web application that allows managing tasks. Users can create, edit and track tasks, assign performers, and change their statuses. Registration and authentication are required to work with the system.
@@ -125,12 +131,6 @@ Limitations:
 - only the user themselves can edit or delete their account
 - it is not possible to delete a user, status, or label that is referenced in a task
 - only the author of a task can delete it
-
----
-
-## Demonstration
-
-The demo version is available on Railway platform: `link`
 
 ---
 
