@@ -197,12 +197,12 @@ msgstr "Статус успешно создан"
 #: task_manager/statuses/tests/test_views.py:154
 #: task_manager/statuses/views.py:46
 msgid "The status successfully updated"
-msgstr "Статус успешно изменён"
+msgstr "Статус успешно изменен"
 
 #: task_manager/statuses/tests/test_views.py:219
 #: task_manager/statuses/views.py:62
 msgid "The status successfully deleted"
-msgstr "Статус успешно удалён"
+msgstr "Статус успешно удален"
 
 #: task_manager/statuses/tests/test_views.py:238
 #: task_manager/statuses/views.py:63
@@ -432,7 +432,7 @@ msgstr "Пользователь успешно зарегистрирован"
 
 #: task_manager/users/tests/test_views.py:171 task_manager/users/views.py:49
 msgid "User successfully updated"
-msgstr "Пользователь успешно изменён"
+msgstr "Пользователь успешно изменен"
 
 #: task_manager/users/tests/test_views.py:235 task_manager/users/views.py:54
 msgid "You do not have permission to change another user"
@@ -440,7 +440,7 @@ msgstr "У вас нет прав для изменения другого по�
 
 #: task_manager/users/tests/test_views.py:303 task_manager/users/views.py:68
 msgid "User successfully deleted"
-msgstr "Пользователь успешно удалён"
+msgstr "Пользователь успешно удален"
 
 #: task_manager/users/tests/test_views.py:322
 #: task_manager/users/tests/test_views.py:343 task_manager/users/views.py:69

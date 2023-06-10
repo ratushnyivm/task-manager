@@ -4,5 +4,5 @@ from .models import Label
 
 
 @admin.register(Label)
-class StatusAdmin(admin.ModelAdmin):
+class LabelAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'created_at')
