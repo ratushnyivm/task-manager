@@ -14,7 +14,7 @@
 
 ## Demonstration
 
-Deployed on a VPS server using nginx, gunicorn, and supervisor: http://195.133.146.48/
+Deployed on a VPS server using nginx, gunicorn, and supervisor: link
 
 ---
 
